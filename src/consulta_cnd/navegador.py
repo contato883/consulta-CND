@@ -11,6 +11,9 @@ Portais suportados (ver PORTAIS):
     conta Receita/PR.
   - "ceuazul-pr": CND Municipal de Céu Azul/PR (plataforma atende.net) —
     normalmente sem login, só CNPJ + CAPTCHA.
+  - "cascavel-pr": CND Municipal de Cascavel/PR (mesma plataforma, em
+    domínio próprio da prefeitura) — normalmente sem login, só CNPJ +
+    CAPTCHA.
 
 Fluxo por CNPJ, em qualquer portal:
   1. O script abre a página de consulta do portal escolhido.
@@ -57,6 +60,10 @@ PORTAIS: dict[str, dict[str, str]] = {
     "ceuazul-pr": {
         "url": "https://ceuazul.atende.net/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1",
         "nome": "CND Municipal — Céu Azul/PR",
+    },
+    "cascavel-pr": {
+        "url": "https://prefa.cascavel.pr.gov.br/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1",
+        "nome": "CND Municipal — Cascavel/PR",
     },
 }
 

@@ -95,6 +95,7 @@ os seguintes portais (`--portal`):
 | `cndt` | CNDT — Débitos Trabalhistas (TST) | [cndt-certidao.tst.jus.br](https://cndt-certidao.tst.jus.br/) | Normalmente não exige — só CNPJ + CAPTCHA |
 | `pr` | CND Estadual — Paraná (Sefa/PR) | [cdwfazenda.paas.pr.gov.br](https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica) | Exige Nota Paraná ou conta Receita/PR |
 | `ceuazul-pr` | CND Municipal — Céu Azul/PR | [ceuazul.atende.net](https://ceuazul.atende.net/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1) | Normalmente não exige — só CNPJ + CAPTCHA |
+| `cascavel-pr` | CND Municipal — Cascavel/PR | [prefa.cascavel.pr.gov.br](https://prefa.cascavel.pr.gov.br/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1) | Normalmente não exige — só CNPJ + CAPTCHA |
 
 O fluxo por CNPJ é o mesmo em todos: o script abre a página do portal
 escolhido, você faz login (se for pedido), digita o CNPJ, resolve o CAPTCHA
@@ -127,6 +128,9 @@ consulta-cnd-navegador --arquivo clientes.csv --portal pr
 
 # CND Municipal - Céu Azul/PR
 consulta-cnd-navegador --arquivo clientes.csv --portal ceuazul-pr
+
+# CND Municipal - Cascavel/PR
+consulta-cnd-navegador --arquivo clientes.csv --portal cascavel-pr
 
 # CNPJ avulso
 consulta-cnd-navegador --cnpj 11.222.333/0001-81 --portal cndt

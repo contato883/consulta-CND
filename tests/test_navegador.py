@@ -8,10 +8,15 @@ def test_portais_conhecidos():
     assert "cndt" in PORTAIS
     assert "pr" in PORTAIS
     assert "ceuazul-pr" in PORTAIS
+    assert "cascavel-pr" in PORTAIS
     assert PORTAIS["cndt"]["url"] == "https://cndt-certidao.tst.jus.br/"
     assert PORTAIS["pr"]["url"] == "https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica"
     assert PORTAIS["ceuazul-pr"]["url"] == (
         "https://ceuazul.atende.net/autoatendimento/servicos/"
+        "certidao-negativa-de-debitos/detalhar/1"
+    )
+    assert PORTAIS["cascavel-pr"]["url"] == (
+        "https://prefa.cascavel.pr.gov.br/autoatendimento/servicos/"
         "certidao-negativa-de-debitos/detalhar/1"
     )
 
