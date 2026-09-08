@@ -81,22 +81,23 @@ Saída (uma linha por CNPJ):
 12.345.678/0001-95  POSITIVA                       [PENDÊNCIA]
 ```
 
-## Opção 2 — Consulta semi-automática pelo portal público (gratuita)
+## Opção 2 — Consulta semi-automática pelo Portal de Serviços Digitais (gratuita)
 
-Usa um navegador de verdade (Playwright) para abrir o portal de emissão de
-certidões da Receita Federal (`solucoes.receita.fazenda.gov.br`) e preencher
-o CNPJ de cada cliente automaticamente. **O CAPTCHA não é contornado** — a
-cada CNPJ, você mesmo resolve o CAPTCHA e clica no botão de consulta/emissão
-na janela do navegador; o script só cuida de abrir a página, digitar o CNPJ,
-esperar você confirmar, e depois salvar o PDF baixado e identificar a
+Usa um navegador de verdade (Playwright) para abrir a página oficial de
+consulta de CND no [Portal de Serviços Digitais da Receita Federal](https://servicos.receitafederal.gov.br/servico/certidoes/#/home/cnpj).
+
+Esse portal **exige login com conta gov.br** (nível Prata ou Ouro) e é uma
+aplicação de página única — por isso, diferente da Opção 1, aqui **login,
+digitação do CNPJ e CAPTCHA são todos manuais**: o script abre a página
+correta, você faz o login/consulta na janela do navegador, e quando o
+resultado aparecer, pressiona Enter no terminal para o script seguir para o
+próximo CNPJ, salvando o PDF baixado (se houver) e tentando identificar a
 situação no texto da página.
 
-**[A VERIFICAR]** — os seletores do formulário (`SELETOR_CAMPO_CNPJ` e os
-textos dos botões em `src/consulta_cnd/navegador.py`) não puderam ser
-confirmados contra a página real no ambiente onde este código foi escrito
-(acesso a sites `.gov.br` estava bloqueado). Antes do primeiro uso, abra a
-página no navegador, inspecione o campo de CNPJ e ajuste esse arquivo — é um
-ajuste único de poucos minutos.
+Para não precisar logar no gov.br a cada execução, o navegador roda com um
+**perfil persistente** (por padrão em `~/.consulta_cnd/perfil_navegador`,
+fora do repositório — nunca é commitado). O login feito numa execução tende
+a continuar valendo nas seguintes.
 
 ### Instalação
 

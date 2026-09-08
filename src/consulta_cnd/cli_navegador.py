@@ -15,10 +15,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         prog="consulta-cnd-navegador",
         description=(
-            "Consulta semi-automática de CND no portal público da Receita "
-            "Federal/PGFN: abre um navegador e preenche o CNPJ de cada "
-            "cliente automaticamente; você resolve o CAPTCHA manualmente "
-            "para cada um."
+            "Consulta semi-automática de CND no Portal de Serviços Digitais "
+            "da Receita Federal: abre o navegador na página de consulta; "
+            "você faz login no gov.br, digita o CNPJ e resolve o CAPTCHA "
+            "manualmente para cada cliente."
         ),
     )
     grupo = parser.add_mutually_exclusive_group(required=True)
@@ -30,10 +30,18 @@ def main() -> None:
         default="certidoes",
         help="Pasta onde salvar os PDFs baixados (padrão: ./certidoes).",
     )
+    parser.add_argument(
+        "--pasta-perfil",
+        help=(
+            "Pasta de perfil do navegador, para manter o login do gov.br "
+            "entre execuções (padrão: ~/.consulta_cnd/perfil_navegador)."
+        ),
+    )
     args = parser.parse_args()
 
     cnpjs = args.cnpj if args.cnpj else ler_cnpjs_csv(args.arquivo, args.coluna)
-    resultados = consultar_lista(cnpjs, Path(args.pasta_destino))
+    argumentos_extra = {"pasta_perfil": Path(args.pasta_perfil)} if args.pasta_perfil else {}
+    resultados = consultar_lista(cnpjs, Path(args.pasta_destino), **argumentos_extra)
 
     print("\nResumo:")
     for resultado in resultados:

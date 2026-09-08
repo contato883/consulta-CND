@@ -1,19 +1,23 @@
 """
-Consulta semi-automática de CND no portal público da Receita Federal/PGFN,
-usando um navegador real (Playwright) — sem tentar contornar o CAPTCHA.
+Consulta semi-automática de CND no Portal de Serviços Digitais da Receita
+Federal, usando um navegador real (Playwright) — sem tentar contornar login
+gov.br nem CAPTCHA.
 
-Fluxo por CNPJ:
-  1. O script abre o portal e preenche o CNPJ automaticamente.
-  2. Você resolve o CAPTCHA e clica no botão de consulta/emissão manualmente.
+O portal (https://servicos.receitafederal.gov.br/servico/certidoes/#/home/cnpj)
+é uma aplicação de página única que exige login com conta gov.br (nível Prata
+ou Ouro). Por isso o fluxo por CNPJ é manual na parte de autenticação e
+preenchimento, e automático no resto:
+
+  1. O script abre a página de consulta.
+  2. Você faz login com sua conta gov.br (se solicitado), digita o CNPJ,
+     resolve o CAPTCHA se aparecer, e consulta/emite a certidão.
   3. Você pressiona Enter no terminal e o script segue para o próximo CNPJ,
-     salvando o PDF baixado e tentando identificar a situação no texto da página.
+     salvando o PDF baixado (se houver) e tentando identificar a situação no
+     texto da página resultante.
 
-[A VERIFICAR] Não foi possível acessar solucoes.receita.fazenda.gov.br a
-partir do ambiente onde este código foi escrito (bloqueio de rede), então os
-seletores abaixo não puderam ser confirmados contra a página real. Antes do
-primeiro uso: abra a página no navegador, clique com o botão direito no campo
-de CNPJ → Inspecionar, e ajuste `SELETOR_CAMPO_CNPJ` (e os textos dos botões,
-se usados) conforme o que você encontrar. É um ajuste único de ~2 minutos.
+O navegador roda com um perfil persistente (`--pasta-perfil`, por padrão em
+`~/.consulta_cnd/perfil_navegador`), então o login no gov.br feito numa
+execução tende a continuar valendo nas próximas.
 """
 
 from __future__ import annotations
@@ -30,12 +34,9 @@ if TYPE_CHECKING:
     # para não exigir instalação só para rodar os testes de `detectar_situacao`.
     from playwright.sync_api import Page
 
-URL_EMISSAO_PJ = "https://solucoes.receita.fazenda.gov.br/servicos/certidaointernet/pj/emitir"
+URL_CONSULTA_CND = "https://servicos.receitafederal.gov.br/servico/certidoes/#/home/cnpj"
 
-# [A VERIFICAR] confirmar na página real antes do primeiro uso.
-SELETOR_CAMPO_CNPJ = "#NI"
-TEXTO_BOTAO_CONSULTAR = "Consultar"
-TEXTO_BOTAO_EMITIR = "Emitir Certidão"
+PASTA_PERFIL_PADRAO = Path.home() / ".consulta_cnd" / "perfil_navegador"
 
 _PADRAO_SITUACAO = re.compile(
     r"CERTID[ÃA]O\s+(NEGATIVA|POSITIVA\s+COM\s+EFEITO\s+DE\s+NEGATIVA|POSITIVA)",
@@ -68,15 +69,15 @@ def consultar_cnpj_no_portal(page: Page, cnpj: str, pasta_destino: Path) -> Resu
 
     page.on("download", _ao_baixar)
     try:
-        page.goto(URL_EMISSAO_PJ)
-        page.fill(SELETOR_CAMPO_CNPJ, numero)
+        page.goto(URL_CONSULTA_CND)
 
         input(
-            f"\n>>> CNPJ {formatar_cnpj(numero)} preenchido no navegador.\n"
-            f">>> Resolva o CAPTCHA e clique em '{TEXTO_BOTAO_CONSULTAR}' / "
-            f"'{TEXTO_BOTAO_EMITIR}'.\n"
-            f">>> Quando a certidão aparecer na tela, pressione Enter aqui "
-            f"para continuar... "
+            f"\n>>> Consulta do CNPJ {formatar_cnpj(numero)}.\n"
+            f">>> Na janela do navegador: faça login com sua conta gov.br "
+            f"(se pedir), digite o CNPJ, resolva o CAPTCHA se aparecer, e "
+            f"consulte/emita a certidão.\n"
+            f">>> Quando o resultado aparecer na tela, pressione Enter "
+            f"aqui para continuar... "
         )
 
         texto_pagina = page.content()
@@ -93,16 +94,24 @@ def consultar_cnpj_no_portal(page: Page, cnpj: str, pasta_destino: Path) -> Resu
     )
 
 
-def consultar_lista(cnpjs: list[str], pasta_destino: Path) -> list[ResultadoCertidao]:
+def consultar_lista(
+    cnpjs: list[str],
+    pasta_destino: Path,
+    pasta_perfil: Path = PASTA_PERFIL_PADRAO,
+) -> list[ResultadoCertidao]:
     from playwright.sync_api import sync_playwright
+
+    pasta_perfil.mkdir(parents=True, exist_ok=True)
 
     resultados = []
     with sync_playwright() as playwright:
-        navegador = playwright.chromium.launch(headless=False)
-        pagina = navegador.new_page()
+        contexto = playwright.chromium.launch_persistent_context(
+            str(pasta_perfil), headless=False
+        )
+        pagina = contexto.pages[0] if contexto.pages else contexto.new_page()
         try:
             for cnpj in cnpjs:
                 resultados.append(consultar_cnpj_no_portal(pagina, cnpj, pasta_destino))
         finally:
-            navegador.close()
+            contexto.close()
     return resultados
