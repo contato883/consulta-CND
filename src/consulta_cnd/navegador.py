@@ -7,6 +7,8 @@ Portais suportados (ver PORTAIS):
     Digitais — exige login com conta gov.br (nível Prata ou Ouro).
   - "cndt": CNDT — Certidão Negativa de Débitos Trabalhistas (TST) —
     normalmente sem login, só CNPJ + CAPTCHA.
+  - "pr": CND Estadual do Paraná (Sefa/PR) — exige login com Nota Paraná ou
+    conta Receita/PR.
 
 Fluxo por CNPJ, em qualquer portal:
   1. O script abre a página de consulta do portal escolhido.
@@ -45,6 +47,10 @@ PORTAIS: dict[str, dict[str, str]] = {
     "cndt": {
         "url": "https://cndt-certidao.tst.jus.br/",
         "nome": "CNDT — Débitos Trabalhistas (TST)",
+    },
+    "pr": {
+        "url": "https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica",
+        "nome": "CND Estadual — Paraná (Sefa/PR)",
     },
 }
 

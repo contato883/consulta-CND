@@ -6,7 +6,9 @@ from consulta_cnd.navegador import PORTAIS, consultar_cnpj_no_portal, detectar_s
 def test_portais_conhecidos():
     assert "rfb" in PORTAIS
     assert "cndt" in PORTAIS
+    assert "pr" in PORTAIS
     assert PORTAIS["cndt"]["url"] == "https://cndt-certidao.tst.jus.br/"
+    assert PORTAIS["pr"]["url"] == "https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica"
 
 
 def test_consultar_cnpj_no_portal_rejeita_portal_desconhecido(tmp_path):

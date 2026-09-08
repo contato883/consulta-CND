@@ -87,14 +87,15 @@ Usa um navegador de verdade (Playwright) para abrir a página oficial de
 consulta e deixar você logar/preencher/resolver o CAPTCHA manualmente,
 enquanto o script cuida de abrir a página certa, esperar sua confirmação,
 salvar o PDF baixado e identificar a situação no texto da página. Suporta
-dois portais (`--portal`):
+os seguintes portais (`--portal`):
 
 | `--portal` | Certidão | URL | Login |
 |---|---|---|---|
 | `rfb` (padrão) | CND Federal (RFB/PGFN) | [Portal de Serviços Digitais](https://servicos.receitafederal.gov.br/servico/certidoes/#/home/cnpj) | Exige conta gov.br (Prata/Ouro) |
 | `cndt` | CNDT — Débitos Trabalhistas (TST) | [cndt-certidao.tst.jus.br](https://cndt-certidao.tst.jus.br/) | Normalmente não exige — só CNPJ + CAPTCHA |
+| `pr` | CND Estadual — Paraná (Sefa/PR) | [cdwfazenda.paas.pr.gov.br](https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica) | Exige Nota Paraná ou conta Receita/PR |
 
-O fluxo por CNPJ é o mesmo nos dois: o script abre a página do portal
+O fluxo por CNPJ é o mesmo em todos: o script abre a página do portal
 escolhido, você faz login (se for pedido), digita o CNPJ, resolve o CAPTCHA
 e consulta/emite a certidão; ao aparecer o resultado, pressiona Enter no
 terminal para o script seguir para o próximo CNPJ.
@@ -119,6 +120,9 @@ consulta-cnd-navegador --arquivo clientes.csv
 
 # CNDT
 consulta-cnd-navegador --arquivo clientes.csv --portal cndt
+
+# CND Estadual - Paraná
+consulta-cnd-navegador --arquivo clientes.csv --portal pr
 
 # CNPJ avulso
 consulta-cnd-navegador --cnpj 11.222.333/0001-81 --portal cndt
