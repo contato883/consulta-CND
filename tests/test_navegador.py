@@ -1,4 +1,17 @@
-from consulta_cnd.navegador import detectar_situacao
+import pytest
+
+from consulta_cnd.navegador import PORTAIS, consultar_cnpj_no_portal, detectar_situacao
+
+
+def test_portais_conhecidos():
+    assert "rfb" in PORTAIS
+    assert "cndt" in PORTAIS
+    assert PORTAIS["cndt"]["url"] == "https://cndt-certidao.tst.jus.br/"
+
+
+def test_consultar_cnpj_no_portal_rejeita_portal_desconhecido(tmp_path):
+    with pytest.raises(ValueError):
+        consultar_cnpj_no_portal(None, "11.222.333/0001-81", tmp_path, portal="portal-inexistente")
 
 
 def test_detectar_situacao_negativa():

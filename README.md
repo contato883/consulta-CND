@@ -81,23 +81,28 @@ Saída (uma linha por CNPJ):
 12.345.678/0001-95  POSITIVA                       [PENDÊNCIA]
 ```
 
-## Opção 2 — Consulta semi-automática pelo Portal de Serviços Digitais (gratuita)
+## Opção 2 — Consulta semi-automática pelo navegador (gratuita)
 
 Usa um navegador de verdade (Playwright) para abrir a página oficial de
-consulta de CND no [Portal de Serviços Digitais da Receita Federal](https://servicos.receitafederal.gov.br/servico/certidoes/#/home/cnpj).
+consulta e deixar você logar/preencher/resolver o CAPTCHA manualmente,
+enquanto o script cuida de abrir a página certa, esperar sua confirmação,
+salvar o PDF baixado e identificar a situação no texto da página. Suporta
+dois portais (`--portal`):
 
-Esse portal **exige login com conta gov.br** (nível Prata ou Ouro) e é uma
-aplicação de página única — por isso, diferente da Opção 1, aqui **login,
-digitação do CNPJ e CAPTCHA são todos manuais**: o script abre a página
-correta, você faz o login/consulta na janela do navegador, e quando o
-resultado aparecer, pressiona Enter no terminal para o script seguir para o
-próximo CNPJ, salvando o PDF baixado (se houver) e tentando identificar a
-situação no texto da página.
+| `--portal` | Certidão | URL | Login |
+|---|---|---|---|
+| `rfb` (padrão) | CND Federal (RFB/PGFN) | [Portal de Serviços Digitais](https://servicos.receitafederal.gov.br/servico/certidoes/#/home/cnpj) | Exige conta gov.br (Prata/Ouro) |
+| `cndt` | CNDT — Débitos Trabalhistas (TST) | [cndt-certidao.tst.jus.br](https://cndt-certidao.tst.jus.br/) | Normalmente não exige — só CNPJ + CAPTCHA |
 
-Para não precisar logar no gov.br a cada execução, o navegador roda com um
-**perfil persistente** (por padrão em `~/.consulta_cnd/perfil_navegador`,
-fora do repositório — nunca é commitado). O login feito numa execução tende
-a continuar valendo nas seguintes.
+O fluxo por CNPJ é o mesmo nos dois: o script abre a página do portal
+escolhido, você faz login (se for pedido), digita o CNPJ, resolve o CAPTCHA
+e consulta/emite a certidão; ao aparecer o resultado, pressiona Enter no
+terminal para o script seguir para o próximo CNPJ.
+
+Para não precisar logar a cada execução, o navegador roda com um **perfil
+persistente** (por padrão em `~/.consulta_cnd/perfil_navegador`, fora do
+repositório — nunca é commitado). O login feito numa execução tende a
+continuar valendo nas seguintes.
 
 ### Instalação
 
@@ -109,15 +114,20 @@ playwright install chromium
 ### Uso
 
 ```bash
+# CND Federal (padrão)
 consulta-cnd-navegador --arquivo clientes.csv
-# ou
-consulta-cnd-navegador --cnpj 11.222.333/0001-81
+
+# CNDT
+consulta-cnd-navegador --arquivo clientes.csv --portal cndt
+
+# CNPJ avulso
+consulta-cnd-navegador --cnpj 11.222.333/0001-81 --portal cndt
 ```
 
-Os PDFs baixados vão para `./certidoes/<cnpj>.pdf` (pasta configurável com
-`--pasta-destino`). Se a situação não for identificada automaticamente no
-texto da página, a linha aparece como `DESCONHECIDA [CONFERIR PDF]` — abra o
-PDF salvo para checar manualmente.
+Os PDFs baixados vão para `./certidoes/<cnpj>_<portal>.pdf` (pasta
+configurável com `--pasta-destino`). Se a situação não for identificada
+automaticamente no texto da página, a linha aparece como
+`DESCONHECIDA [CONFERIR PDF]` — abra o PDF salvo para checar manualmente.
 
 ## Testes
 
