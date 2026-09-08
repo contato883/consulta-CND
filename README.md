@@ -96,6 +96,12 @@ os seguintes portais (`--portal`):
 | `pr` | CND Estadual — Paraná (Sefa/PR) | [cdwfazenda.paas.pr.gov.br](https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica) | Exige Nota Paraná ou conta Receita/PR |
 | `ceuazul-pr` | CND Municipal — Céu Azul/PR | [ceuazul.atende.net](https://ceuazul.atende.net/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1) | Normalmente não exige — só CNPJ + CAPTCHA |
 | `cascavel-pr` | CND Municipal — Cascavel/PR | [prefa.cascavel.pr.gov.br](https://prefa.cascavel.pr.gov.br/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1) | Normalmente não exige — só CNPJ + CAPTCHA |
+| `fgts` | CRF — Regularidade do FGTS (Caixa) | [consulta-crf.caixa.gov.br](https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf) | Normalmente não exige — só CNPJ + CAPTCHA |
+
+**CRF/FGTS só se aplica a empresas que têm (ou já tiveram) empregados com
+FGTS recolhido** — não faz sentido consultar para clientes sem empregados
+(ex.: a maioria dos MEIs, prestadores de serviço sem funcionários). Confira
+isso antes de incluir um CNPJ na lista para esse portal.
 
 O fluxo por CNPJ é o mesmo em todos: o script abre a página do portal
 escolhido, você faz login (se for pedido), digita o CNPJ, resolve o CAPTCHA
@@ -131,6 +137,9 @@ consulta-cnd-navegador --arquivo clientes.csv --portal ceuazul-pr
 
 # CND Municipal - Cascavel/PR
 consulta-cnd-navegador --arquivo clientes.csv --portal cascavel-pr
+
+# CRF/FGTS (só empresas com empregados)
+consulta-cnd-navegador --arquivo clientes-com-empregados.csv --portal fgts
 
 # CNPJ avulso
 consulta-cnd-navegador --cnpj 11.222.333/0001-81 --portal cndt

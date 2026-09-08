@@ -14,6 +14,9 @@ Portais suportados (ver PORTAIS):
   - "cascavel-pr": CND Municipal de Cascavel/PR (mesma plataforma, em
     domínio próprio da prefeitura) — normalmente sem login, só CNPJ +
     CAPTCHA.
+  - "fgts": CRF — Certificado de Regularidade do FGTS (Caixa) —
+    normalmente sem login, só CNPJ + CAPTCHA. Só se aplica a empresas com
+    empregados/FGTS recolhido — não confundir com CND, CNDT etc.
 
 Fluxo por CNPJ, em qualquer portal:
   1. O script abre a página de consulta do portal escolhido.
@@ -65,24 +68,41 @@ PORTAIS: dict[str, dict[str, str]] = {
         "url": "https://prefa.cascavel.pr.gov.br/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1",
         "nome": "CND Municipal — Cascavel/PR",
     },
+    "fgts": {
+        "url": "https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf",
+        "nome": "CRF — Regularidade do FGTS (Caixa)",
+    },
 }
 
-_PADRAO_SITUACAO = re.compile(
+_PADRAO_SITUACAO_CND = re.compile(
     r"CERTID[ÃA]O\s+(NEGATIVA|POSITIVA\s+COM\s+EFEITO\s+DE\s+NEGATIVA|POSITIVA)",
     re.IGNORECASE,
 )
+# [A VERIFICAR] O texto real da página de resultado do CRF/FGTS não pôde ser
+# confirmado (acesso a consulta-crf.caixa.gov.br bloqueado no ambiente onde
+# este código foi escrito). REGULAR/IRREGULAR é a terminologia oficial do
+# certificado, mas o padrão exato da página pode divergir — confira o PDF.
+_PADRAO_SITUACAO_FGTS = re.compile(r"\b(IRREGULAR|REGULAR)\b", re.IGNORECASE)
 
 
 def detectar_situacao(texto_pagina: str) -> str | None:
     """
-    Extrai a situação (NEGATIVA / POSITIVA_COM_EFEITO_DE_NEGATIVA / POSITIVA)
-    do texto da página de resultado. Retorna None se não identificar — nesse
-    caso, confira o PDF baixado manualmente.
+    Extrai a situação do texto da página de resultado:
+      - Certidões de débito (CND, CNDT, estadual, municipal): NEGATIVA /
+        POSITIVA_COM_EFEITO_DE_NEGATIVA / POSITIVA.
+      - CRF/FGTS: REGULAR / IRREGULAR.
+    Retorna None se não identificar — nesse caso, confira o PDF baixado
+    manualmente.
     """
-    encontrado = _PADRAO_SITUACAO.search(texto_pagina)
-    if not encontrado:
-        return None
-    return re.sub(r"\s+", "_", encontrado.group(1).upper())
+    encontrado_cnd = _PADRAO_SITUACAO_CND.search(texto_pagina)
+    if encontrado_cnd:
+        return re.sub(r"\s+", "_", encontrado_cnd.group(1).upper())
+
+    encontrado_fgts = _PADRAO_SITUACAO_FGTS.search(texto_pagina)
+    if encontrado_fgts:
+        return encontrado_fgts.group(1).upper()
+
+    return None
 
 
 def _validar_portal(portal: str) -> None:

@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-SITUACOES_REGULARES = {"NEGATIVA", "POSITIVA_COM_EFEITO_DE_NEGATIVA"}
+SITUACOES_REGULARES = {"NEGATIVA", "POSITIVA_COM_EFEITO_DE_NEGATIVA", "REGULAR"}
 
 
 @dataclass
@@ -19,5 +19,5 @@ class ResultadoCertidao:
 
     @property
     def regular(self) -> bool:
-        """True se a certidão é NEGATIVA ou POSITIVA COM EFEITO DE NEGATIVA."""
+        """True se a situação for NEGATIVA, POSITIVA COM EFEITO DE NEGATIVA ou REGULAR."""
         return self.situacao in SITUACOES_REGULARES

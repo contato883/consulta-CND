@@ -9,6 +9,7 @@ def test_portais_conhecidos():
     assert "pr" in PORTAIS
     assert "ceuazul-pr" in PORTAIS
     assert "cascavel-pr" in PORTAIS
+    assert "fgts" in PORTAIS
     assert PORTAIS["cndt"]["url"] == "https://cndt-certidao.tst.jus.br/"
     assert PORTAIS["pr"]["url"] == "https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica"
     assert PORTAIS["ceuazul-pr"]["url"] == (
@@ -18,6 +19,9 @@ def test_portais_conhecidos():
     assert PORTAIS["cascavel-pr"]["url"] == (
         "https://prefa.cascavel.pr.gov.br/autoatendimento/servicos/"
         "certidao-negativa-de-debitos/detalhar/1"
+    )
+    assert PORTAIS["fgts"]["url"] == (
+        "https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf"
     )
 
 
@@ -43,3 +47,13 @@ def test_detectar_situacao_positiva():
 
 def test_detectar_situacao_desconhecida_retorna_none():
     assert detectar_situacao("<p>página de erro qualquer</p>") is None
+
+
+def test_detectar_situacao_fgts_regular():
+    texto = "<p>A empresa está REGULAR perante o FGTS.</p>"
+    assert detectar_situacao(texto) == "REGULAR"
+
+
+def test_detectar_situacao_fgts_irregular():
+    texto = "<p>A empresa está IRREGULAR perante o FGTS.</p>"
+    assert detectar_situacao(texto) == "IRREGULAR"
