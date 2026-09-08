@@ -12,3 +12,4 @@ dist/
 clientes*.csv
 *.pdf
 !exemplos/clientes.exemplo.csv
+certidoes/

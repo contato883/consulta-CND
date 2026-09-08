@@ -1,0 +1,20 @@
+from consulta_cnd.navegador import detectar_situacao
+
+
+def test_detectar_situacao_negativa():
+    texto = "<p>Foi emitida a CERTIDÃO NEGATIVA de débitos relativos...</p>"
+    assert detectar_situacao(texto) == "NEGATIVA"
+
+
+def test_detectar_situacao_positiva_com_efeito_de_negativa():
+    texto = "<p>CERTIDÃO POSITIVA COM EFEITO DE NEGATIVA de débitos...</p>"
+    assert detectar_situacao(texto) == "POSITIVA_COM_EFEITO_DE_NEGATIVA"
+
+
+def test_detectar_situacao_positiva():
+    texto = "<p>CERTIDÃO POSITIVA de débitos relativos a créditos tributários...</p>"
+    assert detectar_situacao(texto) == "POSITIVA"
+
+
+def test_detectar_situacao_desconhecida_retorna_none():
+    assert detectar_situacao("<p>página de erro qualquer</p>") is None
