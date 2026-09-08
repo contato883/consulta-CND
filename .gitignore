@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# Segredos e dados de clientes — nunca commitar
+.env
+clientes*.csv
+*.pdf
+!exemplos/clientes.exemplo.csv
