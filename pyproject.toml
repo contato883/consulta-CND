@@ -19,6 +19,7 @@ navegador = ["playwright>=1.40"]
 consulta-cnd = "consulta_cnd.cli:main"
 consulta-cnd-navegador = "consulta_cnd.cli_navegador:main"
 consulta-cnd-rotina = "consulta_cnd.cli_rotina:main"
+consulta-cnd-painel = "consulta_cnd.cli_painel:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -13,3 +13,5 @@ clientes*.csv
 *.pdf
 !exemplos/clientes.exemplo.csv
 certidoes/
+painel_certidoes*.html
+resultados*.json

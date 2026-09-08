@@ -22,8 +22,9 @@ def ler_clientes_csv(
     caminho: str | Path,
     coluna_cnpj: str = "cnpj",
     coluna_municipio: str = "municipio",
+    coluna_razao_social: str = "razao_social",
 ) -> list[dict[str, str]]:
-    """Lê CNPJ + município de cada cliente (município ausente vira string vazia)."""
+    """Lê CNPJ + município + razão social de cada cliente (colunas ausentes viram string vazia)."""
     caminho = Path(caminho)
     with caminho.open(newline="", encoding="utf-8") as arquivo:
         leitor = csv.DictReader(arquivo)
@@ -38,6 +39,10 @@ def ler_clientes_csv(
             if not cnpj:
                 continue
             clientes.append(
-                {"cnpj": cnpj, "municipio": linha.get(coluna_municipio, "").strip()}
+                {
+                    "cnpj": cnpj,
+                    "municipio": linha.get(coluna_municipio, "").strip(),
+                    "razao_social": linha.get(coluna_razao_social, "").strip(),
+                }
             )
         return clientes

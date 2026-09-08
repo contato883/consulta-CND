@@ -187,6 +187,33 @@ consulta-cnd-navegador --arquivo clientes.csv --portal fgts
 (empregador doméstico) não entram na planilha nem na rotina — o validador
 de CNPJ rejeitaria esses números.
 
+## Opção 4 — Painel visual (HTML local)
+
+`consulta-cnd-painel` gera uma página HTML — empresas em ordem alfabética,
+uma coluna por tipo de certidão (Federal, Estadual, Municipal, Trabalhista,
+CRF/FGTS), com a logo do escritório no cabeçalho.
+
+**É só visualização — não consulta nada sozinho.** Sem um arquivo de
+resultados, toda célula aparece como `PENDENTE DE VERIFICAÇÃO` (nunca
+`REGULAR` por padrão, para não sugerir uma regularidade que não foi
+checada de verdade).
+
+```bash
+consulta-cnd-painel --arquivo clientes.csv --logo logo-perinazzo.jpg
+```
+
+Para popular com resultados reais, gere um `resultados.json` (formato
+`{"<cnpj só dígitos>": {"rfb": "NEGATIVA", "cndt": "POSITIVA", ...}}`) a
+partir do que `consulta-cnd-rotina`/`consulta-cnd-navegador` retornarem, e
+rode:
+
+```bash
+consulta-cnd-painel --arquivo clientes.csv --logo logo-perinazzo.jpg --resultados resultados.json
+```
+
+O HTML gerado (`painel_certidoes.html` por padrão) e o `resultados.json`
+não são commitados (contêm dados de clientes) — veja `.gitignore`.
+
 ## Testes
 
 ```bash

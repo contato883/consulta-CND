@@ -38,16 +38,22 @@ def test_ler_clientes_csv(tmp_path):
 
     clientes = ler_clientes_csv(caminho)
 
-    assert clientes == [{"cnpj": "11.222.333/0001-81", "municipio": "CEU AZUL"}]
+    assert clientes == [
+        {
+            "cnpj": "11.222.333/0001-81",
+            "municipio": "CEU AZUL",
+            "razao_social": "Empresa Fictícia LTDA",
+        }
+    ]
 
 
-def test_ler_clientes_csv_sem_coluna_municipio_usa_vazio(tmp_path):
+def test_ler_clientes_csv_sem_colunas_opcionais_usa_vazio(tmp_path):
     caminho = tmp_path / "clientes.csv"
     caminho.write_text("cnpj\n11.222.333/0001-81\n")
 
     clientes = ler_clientes_csv(caminho)
 
-    assert clientes == [{"cnpj": "11.222.333/0001-81", "municipio": ""}]
+    assert clientes == [{"cnpj": "11.222.333/0001-81", "municipio": "", "razao_social": ""}]
 
 
 def test_ler_clientes_csv_coluna_cnpj_ausente_levanta_erro(tmp_path):
