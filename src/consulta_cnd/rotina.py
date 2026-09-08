@@ -27,6 +27,7 @@ MAPA_MUNICIPIO_PORTAL = {
     "CEU AZUL": "ceuazul-pr",
     "CASCAVEL": "cascavel-pr",
     "TOLEDO": "toledo-pr",
+    "VERA CRUZ DO OESTE": "veracruzdooeste-pr",
 }
 
 

@@ -21,6 +21,9 @@ Portais suportados (ver PORTAIS):
     [A VERIFICAR] pode exigir login/cadastro além de CNPJ + CAPTCHA; não
     foi possível confirmar contra a página real (acesso bloqueado no
     ambiente onde este código foi escrito).
+  - "veracruzdooeste-pr": CND Municipal de Vera Cruz do Oeste/PR
+    (plataforma Betha Cidadão Web) — normalmente sem login, só CNPJ +
+    CAPTCHA.
 
 Fluxo por CNPJ, em qualquer portal:
   1. O script abre a página de consulta do portal escolhido.
@@ -79,6 +82,10 @@ PORTAIS: dict[str, dict[str, str]] = {
     "toledo-pr": {
         "url": "http://equiplano.toledo.pr.gov.br:7474/esportal/stmcertidao.load.logic",
         "nome": "CND Municipal — Toledo/PR",
+    },
+    "veracruzdooeste-pr": {
+        "url": "https://e-gov.betha.com.br/cdweb/03114-574/contribuinte/rel_cndcontribuinte.faces",
+        "nome": "CND Municipal — Vera Cruz do Oeste/PR",
     },
 }
 
