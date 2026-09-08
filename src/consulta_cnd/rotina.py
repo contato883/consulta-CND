@@ -28,6 +28,7 @@ MAPA_MUNICIPIO_PORTAL = {
     "CASCAVEL": "cascavel-pr",
     "TOLEDO": "toledo-pr",
     "VERA CRUZ DO OESTE": "veracruzdooeste-pr",
+    "MEDIANEIRA": "medianeira-pr",
 }
 
 

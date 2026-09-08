@@ -12,6 +12,7 @@ def test_portais_conhecidos():
     assert "fgts" in PORTAIS
     assert "toledo-pr" in PORTAIS
     assert "veracruzdooeste-pr" in PORTAIS
+    assert "medianeira-pr" in PORTAIS
     assert PORTAIS["cndt"]["url"] == "https://cndt-certidao.tst.jus.br/"
     assert PORTAIS["pr"]["url"] == "https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica"
     assert PORTAIS["ceuazul-pr"]["url"] == (
@@ -30,6 +31,9 @@ def test_portais_conhecidos():
     )
     assert PORTAIS["veracruzdooeste-pr"]["url"] == (
         "https://e-gov.betha.com.br/cdweb/03114-574/contribuinte/rel_cndcontribuinte.faces"
+    )
+    assert PORTAIS["medianeira-pr"]["url"] == (
+        "https://medianeira.oxy.elotech.com.br/portal-contribuinte/emissao-certidoes"
     )
 
 

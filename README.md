@@ -99,6 +99,7 @@ os seguintes portais (`--portal`):
 | `fgts` | CRF — Regularidade do FGTS (Caixa) | [consulta-crf.caixa.gov.br](https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf) | Normalmente não exige — só CNPJ + CAPTCHA |
 | `toledo-pr` | CND Municipal — Toledo/PR | [equiplano.toledo.pr.gov.br](http://equiplano.toledo.pr.gov.br:7474/esportal/stmcertidao.load.logic) | **[A VERIFICAR]** não confirmado — pode exigir login/cadastro |
 | `veracruzdooeste-pr` | CND Municipal — Vera Cruz do Oeste/PR | [e-gov.betha.com.br](https://e-gov.betha.com.br/cdweb/03114-574/contribuinte/rel_cndcontribuinte.faces) | Normalmente não exige — só CNPJ + CAPTCHA |
+| `medianeira-pr` | CND Municipal — Medianeira/PR | [medianeira.oxy.elotech.com.br](https://medianeira.oxy.elotech.com.br/portal-contribuinte/emissao-certidoes) | **[A VERIFICAR]** não confirmado — pode exigir login/cadastro |
 
 **CRF/FGTS só se aplica a empresas que têm (ou já tiveram) empregados com
 FGTS recolhido** — não faz sentido consultar para clientes sem empregados
@@ -146,6 +147,9 @@ consulta-cnd-navegador --arquivo clientes.csv --portal toledo-pr
 # CND Municipal - Vera Cruz do Oeste/PR
 consulta-cnd-navegador --arquivo clientes.csv --portal veracruzdooeste-pr
 
+# CND Municipal - Medianeira/PR
+consulta-cnd-navegador --arquivo clientes.csv --portal medianeira-pr
+
 # CRF/FGTS (só empresas com empregados)
 consulta-cnd-navegador --arquivo clientes-com-empregados.csv --portal fgts
 
@@ -162,9 +166,10 @@ automaticamente no texto da página, a linha aparece como
 
 `consulta-cnd-rotina` roda, em sequência, RFB + CNDT + Estadual-PR para
 **todos** os CNPJs da planilha, e depois a CND municipal de cada cliente
-conforme a coluna `municipio` (`ceuazul-pr`, `cascavel-pr`, `toledo-pr` ou
-`veracruzdooeste-pr`). Município da carteira sem portal municipal
-cadastrado ainda é listado à parte, sem consulta.
+conforme a coluna `municipio` (`ceuazul-pr`, `cascavel-pr`, `toledo-pr`,
+`veracruzdooeste-pr` ou `medianeira-pr` — cobrindo hoje toda a carteira
+atual). Município da carteira sem portal municipal cadastrado ainda é
+listado à parte, sem consulta.
 
 ```bash
 consulta-cnd-rotina --arquivo clientes.csv

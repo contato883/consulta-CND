@@ -24,6 +24,9 @@ Portais suportados (ver PORTAIS):
   - "veracruzdooeste-pr": CND Municipal de Vera Cruz do Oeste/PR
     (plataforma Betha Cidadão Web) — normalmente sem login, só CNPJ +
     CAPTCHA.
+  - "medianeira-pr": CND Municipal de Medianeira/PR (plataforma Elotech) —
+    [A VERIFICAR] não foi possível confirmar se exige login além de CNPJ +
+    CAPTCHA (acesso bloqueado no ambiente onde este código foi escrito).
 
 Fluxo por CNPJ, em qualquer portal:
   1. O script abre a página de consulta do portal escolhido.
@@ -86,6 +89,10 @@ PORTAIS: dict[str, dict[str, str]] = {
     "veracruzdooeste-pr": {
         "url": "https://e-gov.betha.com.br/cdweb/03114-574/contribuinte/rel_cndcontribuinte.faces",
         "nome": "CND Municipal — Vera Cruz do Oeste/PR",
+    },
+    "medianeira-pr": {
+        "url": "https://medianeira.oxy.elotech.com.br/portal-contribuinte/emissao-certidoes",
+        "nome": "CND Municipal — Medianeira/PR",
     },
 }
 

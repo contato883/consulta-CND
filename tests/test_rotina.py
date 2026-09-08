@@ -31,13 +31,13 @@ def test_montar_plano_agrupa_por_municipio_conhecido_ignorando_maiusculas():
 
 def test_montar_plano_reporta_municipios_sem_portal_configurado():
     clientes = [
-        {"cnpj": "111", "municipio": "MEDIANEIRA"},
+        {"cnpj": "111", "municipio": "SANTA HELENA"},
         {"cnpj": "222", "municipio": "FOZ DO IGUACU"},
     ]
 
     _, sem_portal = montar_plano(clientes)
 
-    assert sem_portal == ["FOZ DO IGUACU", "MEDIANEIRA"]
+    assert sem_portal == ["FOZ DO IGUACU", "SANTA HELENA"]
 
 
 def test_montar_plano_agrupa_toledo():
@@ -60,8 +60,18 @@ def test_montar_plano_agrupa_vera_cruz_do_oeste():
     assert sem_portal == []
 
 
+def test_montar_plano_agrupa_medianeira():
+    clientes = [{"cnpj": "111", "municipio": "Medianeira"}]
+
+    plano, sem_portal = montar_plano(clientes)
+    mapa = dict(plano)
+
+    assert mapa["medianeira-pr"] == ["111"]
+    assert sem_portal == []
+
+
 def test_montar_plano_nao_gera_entrada_municipal_sem_clientes():
-    clientes = [{"cnpj": "111", "municipio": "MEDIANEIRA"}]
+    clientes = [{"cnpj": "111", "municipio": "SANTA HELENA"}]
 
     plano, _ = montar_plano(clientes)
     portais_no_plano = [portal for portal, _ in plano]
@@ -70,3 +80,4 @@ def test_montar_plano_nao_gera_entrada_municipal_sem_clientes():
     assert "cascavel-pr" not in portais_no_plano
     assert "toledo-pr" not in portais_no_plano
     assert "veracruzdooeste-pr" not in portais_no_plano
+    assert "medianeira-pr" not in portais_no_plano
