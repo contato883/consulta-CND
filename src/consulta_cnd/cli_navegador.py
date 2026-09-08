@@ -6,9 +6,9 @@ import argparse
 import sys
 from pathlib import Path
 
-from .cnpj import formatar_cnpj
 from .navegador import PORTAIS, consultar_lista
 from .planilha import ler_cnpjs_csv
+from .resumo import houve_situacao_desconhecida, linha_resumo
 
 
 def main() -> None:
@@ -55,15 +55,9 @@ def main() -> None:
 
     print("\nResumo:")
     for resultado in resultados:
-        if resultado.situacao == "DESCONHECIDA":
-            status = "CONFERIR PDF"
-        elif resultado.regular:
-            status = "OK"
-        else:
-            status = "PENDÊNCIA"
-        print(f"{formatar_cnpj(resultado.cnpj)}  {resultado.situacao:<30} [{status}]")
+        print(linha_resumo(resultado))
 
-    if any(resultado.situacao == "DESCONHECIDA" for resultado in resultados):
+    if houve_situacao_desconhecida(resultados):
         sys.exit(1)
 
 

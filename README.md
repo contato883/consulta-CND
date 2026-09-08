@@ -150,6 +150,30 @@ configurável com `--pasta-destino`). Se a situação não for identificada
 automaticamente no texto da página, a linha aparece como
 `DESCONHECIDA [CONFERIR PDF]` — abra o PDF salvo para checar manualmente.
 
+## Opção 3 — Rotina mensal (todos os portais de uma vez, por CNPJ)
+
+`consulta-cnd-rotina` roda, em sequência, RFB + CNDT + Estadual-PR para
+**todos** os CNPJs da planilha, e depois a CND municipal de cada cliente
+conforme a coluna `municipio` (usa `ceuazul-pr` para clientes de Céu Azul,
+`cascavel-pr` para os de Cascavel). Município da carteira sem portal
+municipal cadastrado ainda é listado à parte, sem consulta.
+
+```bash
+consulta-cnd-rotina --arquivo clientes.csv
+```
+
+A planilha precisa das colunas `cnpj` e `municipio` (veja
+`exemplos/clientes.exemplo.csv`). **Não inclui o CRF/FGTS** — como esse só
+vale para clientes com empregados, rode-o à parte quando fizer sentido:
+
+```bash
+consulta-cnd-navegador --arquivo clientes.csv --portal fgts
+```
+
+**Só funciona com CNPJ.** Clientes com CAEPF (produtor rural) ou CPF
+(empregador doméstico) não entram na planilha nem na rotina — o validador
+de CNPJ rejeitaria esses números.
+
 ## Testes
 
 ```bash
