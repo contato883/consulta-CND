@@ -9,6 +9,8 @@ Portais suportados (ver PORTAIS):
     normalmente sem login, só CNPJ + CAPTCHA.
   - "pr": CND Estadual do Paraná (Sefa/PR) — exige login com Nota Paraná ou
     conta Receita/PR.
+  - "ceuazul-pr": CND Municipal de Céu Azul/PR (plataforma atende.net) —
+    normalmente sem login, só CNPJ + CAPTCHA.
 
 Fluxo por CNPJ, em qualquer portal:
   1. O script abre a página de consulta do portal escolhido.
@@ -51,6 +53,10 @@ PORTAIS: dict[str, dict[str, str]] = {
     "pr": {
         "url": "https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica",
         "nome": "CND Estadual — Paraná (Sefa/PR)",
+    },
+    "ceuazul-pr": {
+        "url": "https://ceuazul.atende.net/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1",
+        "nome": "CND Municipal — Céu Azul/PR",
     },
 }
 

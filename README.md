@@ -94,6 +94,7 @@ os seguintes portais (`--portal`):
 | `rfb` (padrão) | CND Federal (RFB/PGFN) | [Portal de Serviços Digitais](https://servicos.receitafederal.gov.br/servico/certidoes/#/home/cnpj) | Exige conta gov.br (Prata/Ouro) |
 | `cndt` | CNDT — Débitos Trabalhistas (TST) | [cndt-certidao.tst.jus.br](https://cndt-certidao.tst.jus.br/) | Normalmente não exige — só CNPJ + CAPTCHA |
 | `pr` | CND Estadual — Paraná (Sefa/PR) | [cdwfazenda.paas.pr.gov.br](https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica) | Exige Nota Paraná ou conta Receita/PR |
+| `ceuazul-pr` | CND Municipal — Céu Azul/PR | [ceuazul.atende.net](https://ceuazul.atende.net/autoatendimento/servicos/certidao-negativa-de-debitos/detalhar/1) | Normalmente não exige — só CNPJ + CAPTCHA |
 
 O fluxo por CNPJ é o mesmo em todos: o script abre a página do portal
 escolhido, você faz login (se for pedido), digita o CNPJ, resolve o CAPTCHA
@@ -123,6 +124,9 @@ consulta-cnd-navegador --arquivo clientes.csv --portal cndt
 
 # CND Estadual - Paraná
 consulta-cnd-navegador --arquivo clientes.csv --portal pr
+
+# CND Municipal - Céu Azul/PR
+consulta-cnd-navegador --arquivo clientes.csv --portal ceuazul-pr
 
 # CNPJ avulso
 consulta-cnd-navegador --cnpj 11.222.333/0001-81 --portal cndt
