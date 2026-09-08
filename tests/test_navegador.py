@@ -10,6 +10,7 @@ def test_portais_conhecidos():
     assert "ceuazul-pr" in PORTAIS
     assert "cascavel-pr" in PORTAIS
     assert "fgts" in PORTAIS
+    assert "toledo-pr" in PORTAIS
     assert PORTAIS["cndt"]["url"] == "https://cndt-certidao.tst.jus.br/"
     assert PORTAIS["pr"]["url"] == "https://cdwfazenda.paas.pr.gov.br/cdwportal/certidao/automatica"
     assert PORTAIS["ceuazul-pr"]["url"] == (
@@ -22,6 +23,9 @@ def test_portais_conhecidos():
     )
     assert PORTAIS["fgts"]["url"] == (
         "https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf"
+    )
+    assert PORTAIS["toledo-pr"]["url"] == (
+        "http://equiplano.toledo.pr.gov.br:7474/esportal/stmcertidao.load.logic"
     )
 
 

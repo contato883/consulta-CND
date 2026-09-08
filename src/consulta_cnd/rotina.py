@@ -26,6 +26,7 @@ PORTAIS_PARA_TODA_CARTEIRA = ["rfb", "cndt", "pr"]
 MAPA_MUNICIPIO_PORTAL = {
     "CEU AZUL": "ceuazul-pr",
     "CASCAVEL": "cascavel-pr",
+    "TOLEDO": "toledo-pr",
 }
 
 

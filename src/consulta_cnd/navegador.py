@@ -17,6 +17,10 @@ Portais suportados (ver PORTAIS):
   - "fgts": CRF — Certificado de Regularidade do FGTS (Caixa) —
     normalmente sem login, só CNPJ + CAPTCHA. Só se aplica a empresas com
     empregados/FGTS recolhido — não confundir com CND, CNDT etc.
+  - "toledo-pr": CND Municipal de Toledo/PR (plataforma Equiplano) —
+    [A VERIFICAR] pode exigir login/cadastro além de CNPJ + CAPTCHA; não
+    foi possível confirmar contra a página real (acesso bloqueado no
+    ambiente onde este código foi escrito).
 
 Fluxo por CNPJ, em qualquer portal:
   1. O script abre a página de consulta do portal escolhido.
@@ -71,6 +75,10 @@ PORTAIS: dict[str, dict[str, str]] = {
     "fgts": {
         "url": "https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf",
         "nome": "CRF — Regularidade do FGTS (Caixa)",
+    },
+    "toledo-pr": {
+        "url": "http://equiplano.toledo.pr.gov.br:7474/esportal/stmcertidao.load.logic",
+        "nome": "CND Municipal — Toledo/PR",
     },
 }
 
