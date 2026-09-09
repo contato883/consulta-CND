@@ -202,14 +202,19 @@ checada de verdade).
 consulta-cnd-painel --arquivo clientes.csv --logo logo-perinazzo.jpg
 ```
 
-Para popular com resultados reais, gere um `resultados.json` (formato
-`{"<cnpj só dígitos>": {"rfb": "NEGATIVA", "cndt": "POSITIVA", ...}}`) a
-partir do que `consulta-cnd-rotina`/`consulta-cnd-navegador` retornarem, e
-rode:
+**O `resultados.json` é gerado sozinho.** Toda consulta feita por
+`consulta-cnd-navegador` ou `consulta-cnd-rotina` já grava (ou atualiza) o
+`resultados.json` automaticamente — não precisa montar esse arquivo à mão.
+Depois de rodar uma consulta de verdade, é só gerar o painel apontando pra
+ele:
 
 ```bash
 consulta-cnd-painel --arquivo clientes.csv --logo logo-perinazzo.jpg --resultados resultados.json
 ```
+
+O caminho é configurável com `--resultados` nos três comandos (padrão:
+`resultados.json` na pasta atual, em todos eles — então rodando tudo no
+mesmo diretório já fecha o ciclo sem precisar passar a flag).
 
 O HTML gerado (`painel_certidoes.html` por padrão) e o `resultados.json`
 não são commitados (contêm dados de clientes) — veja `.gitignore`.

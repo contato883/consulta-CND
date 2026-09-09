@@ -36,6 +36,10 @@ def _status_celula(situacao: str | None) -> tuple[str, str]:
     """(texto, classe_css) para uma situação — None = ainda não consultado."""
     if situacao is None:
         return "PENDENTE DE VERIFICAÇÃO", "pendente"
+    if situacao == "DESCONHECIDA":
+        # O texto da página não foi reconhecido pelo regex — não é uma
+        # pendência real, só não deu para confirmar automaticamente.
+        return "CONFERIR PDF MANUALMENTE", "pendente"
     if situacao in SITUACOES_REGULARES:
         return "REGULAR", "regular"
     return f"PENDÊNCIA ({situacao})", "irregular"

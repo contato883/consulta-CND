@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .navegador import PORTAIS, consultar_lista
 from .planilha import ler_cnpjs_csv
+from .resultados import registrar_resultados
 from .resumo import houve_situacao_desconhecida, linha_resumo
 
 
@@ -45,6 +46,14 @@ def main() -> None:
             "execuções (padrão: ~/.consulta_cnd/perfil_navegador)."
         ),
     )
+    parser.add_argument(
+        "--resultados",
+        default="resultados.json",
+        help=(
+            "JSON onde salvar a situação de cada CNPJ, para alimentar o "
+            "consulta-cnd-painel (padrão: resultados.json)."
+        ),
+    )
     args = parser.parse_args()
 
     cnpjs = args.cnpj if args.cnpj else ler_cnpjs_csv(args.arquivo, args.coluna)
@@ -52,6 +61,7 @@ def main() -> None:
     resultados = consultar_lista(
         cnpjs, Path(args.pasta_destino), portal=args.portal, **argumentos_extra
     )
+    registrar_resultados(args.resultados, resultados)
 
     print("\nResumo:")
     for resultado in resultados:

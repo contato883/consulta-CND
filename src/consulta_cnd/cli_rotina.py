@@ -30,9 +30,17 @@ def main() -> None:
         default="certidoes",
         help="Pasta onde salvar os PDFs baixados (padrão: ./certidoes).",
     )
+    parser.add_argument(
+        "--resultados",
+        default="resultados.json",
+        help=(
+            "JSON onde salvar a situação de cada CNPJ, para alimentar o "
+            "consulta-cnd-painel (padrão: resultados.json)."
+        ),
+    )
     args = parser.parse_args()
 
-    executar_rotina(args.arquivo, Path(args.pasta_destino))
+    executar_rotina(args.arquivo, Path(args.pasta_destino), args.resultados)
 
 
 if __name__ == "__main__":

@@ -19,6 +19,7 @@ from pathlib import Path
 
 from .navegador import PORTAIS, consultar_lista
 from .planilha import ler_clientes_csv
+from .resultados import registrar_resultados
 from .resumo import linha_resumo
 
 PORTAIS_PARA_TODA_CARTEIRA = ["rfb", "cndt", "pr"]
@@ -60,7 +61,11 @@ def montar_plano(
     return plano, municipios_sem_portal
 
 
-def executar_rotina(caminho_csv: str | Path, pasta_destino: Path) -> None:
+def executar_rotina(
+    caminho_csv: str | Path,
+    pasta_destino: Path,
+    caminho_resultados: str | Path = "resultados.json",
+) -> None:
     clientes = ler_clientes_csv(caminho_csv)
     plano, municipios_sem_portal = montar_plano(clientes)
 
@@ -74,5 +79,6 @@ def executar_rotina(caminho_csv: str | Path, pasta_destino: Path) -> None:
     for portal, cnpjs in plano:
         print(f"\n=== {PORTAIS[portal]['nome']} ({len(cnpjs)} cliente(s)) ===")
         resultados = consultar_lista(cnpjs, pasta_destino, portal=portal)
+        registrar_resultados(caminho_resultados, resultados)
         for resultado in resultados:
             print(linha_resumo(resultado))

@@ -21,6 +21,12 @@ def test_status_celula_irregular_mostra_situacao_bruta():
     assert classe == "irregular"
 
 
+def test_status_celula_desconhecida_pede_conferencia_manual():
+    texto, classe = _status_celula("DESCONHECIDA")
+    assert texto == "CONFERIR PDF MANUALMENTE"
+    assert classe == "pendente"
+
+
 def _csv_ficticio(tmp_path):
     caminho = tmp_path / "clientes.csv"
     caminho.write_text(
